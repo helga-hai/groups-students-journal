@@ -3,7 +3,7 @@
         <div class='card__content head'>
             <div v-for="(value, key, index) in itemsList[0]" :key="index">{{key}}</div>
         </div>
-        <person  v-for="(item,index) in itemsList" :key="index" 
+        <person v-for="(item,index) in itemsList" :key="index" 
             @deleteItemMain="deleteItemMain"
             :item.sync="item"
             :markInner="markInner"
@@ -24,29 +24,36 @@ export default {
             markInner:''
         }
     },
-    props: ['coursesList','usersList','mark'],
+    props: {
+        coursesList:Array,
+        usersList:Array,
+        mark: String
+    },
     mounted() {
         this.markInner = this.mark;
         if(this.mark=='users'){
-            if (localStorage['changeusers']) {
-                this.itemsList=JSON.parse(localStorage['changeusers']);
-            } else this.itemsList=this.usersList;
-
+            this.itemsList=this.usersList;
         } else if(this.mark=='courses'){
-            if (localStorage['changecourses']) {
-                this.itemsList=JSON.parse(localStorage['changecourses']);
-            } else this.itemsList=this.coursesList;
+            this.itemsList=this.coursesList;
+        }
+    },
+    watch: {
+        itemsList(newVal) {
+            if(this.mark=='users')
+                this.itemsList=this.usersList;
+             else if(this.mark=='courses')
+                this.itemsList=this.coursesList;
         }
     },
     methods: {
         deleteItemMain(item) {
             const indexInList = this.itemsList.indexOf(item);
             this.itemsList.splice(indexInList, 1);
-            let localkey = 'change'+this.mark;
+            let localkey = this.mark+'List';
             localStorage[localkey] = JSON.stringify(this.itemsList);
         },
         saveItemLocal(item) {
-            let localkey = 'change'+this.mark;
+            let localkey = this.mark+'List';
             localStorage[localkey] = JSON.stringify(this.itemsList);
         }
     }

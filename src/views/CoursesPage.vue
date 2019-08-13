@@ -11,9 +11,9 @@
 </template>
 <script>
 import MainLayout from "@/layouts/MainLayout";
+import {coursesList} from "@/services/CoursesContent";
 import ElementsList from "@/components/ElementsList";
 import CreateItem from "@/components/CreateItem";
-import {coursesList} from "@/services/CoursesContent";
 
 export default {
   name: "CoursesPage",
@@ -28,11 +28,19 @@ export default {
       coursesList
     }
   },
+  mounted() {
+    if (localStorage.coursesList) {
+      this.coursesList = JSON.parse(localStorage.coursesList);
+    }
+  },
+  watch: {
+    coursesList(newVal) {
+      localStorage.coursesList = JSON.stringify(newVal);
+    }
+  },
   methods: {
     createElement(newItem) {
       this.coursesList.push(newItem);
-      let localkey = 'changecourses';
-      localStorage[localkey] = JSON.stringify(this.coursesList);
     }
   }
 };

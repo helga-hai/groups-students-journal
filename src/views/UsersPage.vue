@@ -15,6 +15,7 @@ import MainLayout from "@/layouts/MainLayout";
 import {usersList} from "@/services/UsersContent";
 import ElementsList from "@/components/ElementsList";
 import CreateItem from "@/components/CreateItem";
+
 export default {
   name: "UsersPage",
   components: {
@@ -22,17 +23,25 @@ export default {
     ElementsList,
     CreateItem
   },
-  data(){
+  data() {
     return {
       title:'Users',
       usersList
     }
   },
+  mounted() {
+    if (localStorage.usersList) {
+      this.usersList = JSON.parse(localStorage.usersList);
+    }
+  },
+  watch: {
+    usersList(newVal) {
+      localStorage.usersList = JSON.stringify(newVal);
+    }
+  },
   methods: {
-    createElement(newItem) {
-      this.usersList.push(newItem);
-      let localkey = 'changeusers';
-      localStorage[localkey] = JSON.stringify(this.usersList);
+    createElement(newVal) {
+      this.usersList.push(newVal);
     }
   }
 };

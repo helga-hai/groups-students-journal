@@ -29,7 +29,7 @@
                 :isActive="this.userStatus"/>
 
             <div class='card__operation'>
-                <button class='edit save' @click="sendData()">save</button>
+                <button class='edit save' @click="sendData()">create</button>
                 <button class='remove cancel' @click="cancelMethod">cancel</button>
             </div>
         </div>
@@ -91,11 +91,11 @@ export default {
           this.$emit('createElement', {name,email,status});
           this.userName = '';
           this.userEmail = '';
-          this.userStatus = null;
+          this.userStatus = false;
           this.isNew = false;
         }
       }
-    },
+    }
   },
 };
 </script>
