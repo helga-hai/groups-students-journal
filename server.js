@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Credentials", true);
     next();
 });
-app.get("./", function (req, res) {
+app.get("/", function (req, res) {
     return res.json({
         message: "UI API!"
     });
