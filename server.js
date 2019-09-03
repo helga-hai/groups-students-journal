@@ -4,7 +4,9 @@ const path = require('path');
 app = express();
 app.use(serveStatic(path.join(__dirname, 'dist')));
 const port = process.env.PORT || 80;
-app.listen(port);
+app.listen((port), function(){
+    console.log('listening on *:5000');
+  });
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
